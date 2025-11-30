@@ -1,41 +1,882 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>portfolio</title>
-    <style>
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-        }
-        body {
-            display: flex;
-            flex-direction: column;
-            padding: 0 20px;
-            font-family: Arial, sans-serif;
-            background-color: #171717;
-            color: white;
-            max-width: 500px;
-            margin: 20px auto;
-        }
-		.credits {
-			position: fixed;
-			bottom: 10px;
-			left: 50%;
-			transform: translateX(-50%);
-			color: white;
-			font-size: 14px;
-			font-family: Arial, sans-serif;
-			opacity: 0.7;
-		}
-        .credits a {
-            color: #ffcc00;
-        }
-    </style>
-</head>
-<body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Portfolio</title>
+		<style>
+			:root {
+				--gallery-aspect: 16 / 9;
 
-  <div class="credits">Made by <a href="https://github.com/sehvie/portfolio" target="_blank">Sevie</a>! (@sehvie). I make Video Games, not Websites.</div>
-</body>
+				--bg-main: #1b1020;
+				--bg-header: #301438;
+				--bg-content: #120b18;
+
+				--accent: #ff99cc;
+				--accent-alt: #ffccdd;
+
+				--header-grad-top: #8a4dff;
+				--header-grad-bottom: #3a1455;
+
+				--card-grad-top: #8a4dff;
+				--card-grad-bottom: #3a1455;
+
+				--win95-gray: #c0c0c0;
+				--win95-dark: #404040;
+				--win95-border-light: #ffffff;
+			}
+
+			body {
+				margin: 0;
+				font-family: Verdana, Tahoma, Arial, sans-serif;
+				font-size: 14px;
+				background-color: var(--bg-main);
+				background-image: url("bg-tile.gif");
+				background-repeat: repeat;
+				color: #f0f0f0;
+			}
+			a {
+				color: var(--accent);
+				text-decoration: underline;
+			}
+			a:hover {
+				text-decoration: none;
+			}
+			.page-wrap {
+				max-width: 960px;
+				margin: 0 auto;
+				border-left: 2px solid var(--win95-border-light);
+				border-right: 2px solid var(--win95-border-light);
+				background-color: var(--bg-content);
+			}
+			header {
+				text-align: center;
+				padding: 20px 10px 10px;
+				border-bottom: 2px solid var(--win95-border-light);
+				background: var(--bg-header) url("header-tile.gif");
+				background-repeat: repeat;
+			}
+			header h1 {
+				font-size: 32px;
+				margin: 0;
+				color: var(--accent-alt);
+				text-shadow: 1px 1px 0 #000000;
+				letter-spacing: 1px;
+			}
+			.header-bar {
+				margin: 8px auto 0;
+				max-width: 700px;
+				padding: 6px 8px;
+				font-size: 13px;
+				color: #ffffff;
+				background: linear-gradient(to bottom, var(--header-grad-top), var(--header-grad-bottom));
+				border: 1px solid var(--win95-border-light);
+				text-align: center;
+			}
+			nav {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 6px;
+				justify-content: center;
+				margin: 10px 0 4px;
+				padding-bottom: 4px;
+			}
+			nav button {
+				padding: 4px 12px;
+				font-size: 11px;
+				text-transform: uppercase;
+				letter-spacing: 0.5px;
+				cursor: pointer;
+				border-width: 2px;
+				border-style: solid;
+				border-color: var(--win95-border-light) #333333 #333333 var(--win95-border-light);
+				background: var(--win95-gray);
+				color: #000000;
+				box-shadow: inset 0 0 0 1px var(--win95-border-light);
+				border-radius: 0;
+			}
+			nav button:hover {
+				background: #e8e8e8;
+			}
+			nav button.active {
+				background: #ffffff;
+				color: #000000;
+			}
+			.divider {
+				height: 6px;
+				background: var(--win95-gray);
+				border-top: 2px solid var(--win95-border-light);
+				border-bottom: 2px solid var(--win95-dark);
+				margin: 0;
+			}
+			.content-section {
+				background-color: var(--bg-content);
+				background-image: url("content-tile.gif");
+				background-repeat: repeat;
+				padding: 15px 10px 40px;
+				max-width: 960px;
+				margin: 0 auto;
+				border-top: 2px solid var(--win95-border-light);
+				border-bottom: 2px solid var(--win95-border-light);
+				min-height: 50vh;
+			}
+			.cards-container {
+				column-count: 1;
+				column-gap: 20px;
+				max-width: 940px;
+				margin: 0 auto;
+			}
+			@media (min-width: 900px) {
+				.cards-container {
+					column-count: 2;
+				}
+			}
+			.card {
+				display: inline-block;
+				width: 100%;
+				margin: 0 0 20px;
+				break-inside: avoid;
+				box-sizing: border-box;
+				text-align: left;
+				position: relative;
+				background-color: #000022;
+				border: 1px solid #99ccff;
+				border-radius: 0;
+				box-shadow:
+					inset 0 0 0 1px #000000,
+					1px 1px 0 #000000;
+				padding: 8px;
+			}
+			.card-header {
+				background: linear-gradient(to bottom, var(--card-grad-top), var(--card-grad-bottom));
+				padding: 6px 8px;
+				margin: -8px -8px 8px;
+				border-bottom: 1px solid #000000;
+			}
+			.card-header h2 {
+				margin: 0;
+				font-size: 16px;
+				color: var(--accent-alt);
+				text-shadow: 1px 1px 0 #000000;
+			}
+			.card-header .subtext {
+				margin: 2px 0 0;
+				font-size: 11px;
+				color: #ddddff;
+			}
+			.card img,
+			.card video {
+				width: 100%;
+				border-radius: 0;
+				margin-bottom: 8px;
+				display: block;
+				border: 2px solid #000000;
+			}
+			.gallery {
+				margin-bottom: 8px;
+			}
+			.gallery-image-wrapper {
+				position: relative;
+				width: 100%;
+				aspect-ratio: var(--gallery-aspect);
+				overflow: hidden;
+				border: 2px solid #000000;
+				background-color: #000000;
+			}
+			.gallery-image {
+				width: 100%;
+				height: 100%;
+				object-fit: contain;
+				display: block;
+				margin: 0 auto;
+			}
+			.gallery-counter {
+				position: absolute;
+				top: 4px;
+				left: 4px;
+				padding: 2px 6px;
+				font-size: 10px;
+				color: #000000;
+				background-color: #c0c0c0;
+				border-top: 2px solid #ffffff;
+				border-left: 2px solid #ffffff;
+				border-right: 2px solid #404040;
+				border-bottom: 2px solid #404040;
+			}
+			.gallery-arrow {
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				width: 40px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 16px;
+				color: #ffffff;
+				text-shadow: 1px 1px 0 #000000;
+				cursor: pointer;
+				opacity: 0;
+				transition:
+					opacity 0.15s linear,
+					background-color 0.1s linear;
+				user-select: none;
+				-webkit-user-select: none;
+				-moz-user-select: none;
+			}
+			.gallery-arrow-left {
+				left: 0;
+			}
+			.gallery-arrow-right {
+				right: 0;
+			}
+			.gallery:hover .gallery-arrow {
+				opacity: 1;
+			}
+			.gallery-arrow:hover {
+				background-color: rgba(128, 128, 128, 0.35);
+			}
+			.win95-panel {
+				margin-top: 6px;
+				background-color: #c0c0c0;
+				border-top: 2px solid #ffffff;
+				border-left: 2px solid #ffffff;
+				border-right: 2px solid #404040;
+				border-bottom: 2px solid #404040;
+				padding: 0;
+			}
+			.win95-tabs {
+				display: flex;
+				align-items: center;
+				gap: 4px;
+				padding: 4px 4px 0;
+			}
+			.win95-tab {
+				font-size: 11px;
+				padding: 2px 10px;
+				background-color: #c0c0c0;
+				color: #000000;
+				border: none;
+				box-shadow: none;
+			}
+			.win95-tab.active {
+				background-color: #c0c0c0;
+				color: #000000;
+				border: none;
+				box-shadow:
+					inset 1px 1px 0 #ffffff,
+					inset -1px -1px 0 #808080;
+			}
+			.win95-body {
+				margin: 4px 4px 4px;
+				background-color: #ffffff;
+				border-top: 1px solid #808080;
+				border-left: 1px solid #808080;
+				border-right: 1px solid #ffffff;
+				border-bottom: 1px solid #ffffff;
+				padding: 8px;
+				font-size: 12px;
+				color: #000000;
+			}
+			.win95-body p {
+				margin: 0;
+				color: #000000;
+			}
+			.tags {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 4px;
+				margin: 0;
+				padding: 0;
+			}
+			.tag {
+				position: relative;
+				padding: 2px 8px;
+				font-size: 11px;
+				cursor: help;
+				border-radius: 0;
+
+				background-color: #c0c0c0;
+				color: #000000;
+
+				border: none;
+				box-shadow: none;
+
+				transition: background-color 0.1s linear;
+			}
+
+			.tag:hover {
+				background-color: #b0b0b0;
+			}
+			
+			.tag::after {
+				content: attr(data-info);
+				position: absolute;
+				bottom: 120%;
+				left: 0;
+
+				display: inline-block;
+				white-space: nowrap;
+				width: auto;
+				max-width: none;
+
+				background-color: #c0c0c0;
+				color: #000000;
+				padding: 6px 8px;
+				font-size: 11px;
+
+				border-top: 2px solid #ffffff;
+				border-left: 2px solid #ffffff;
+				border-right: 2px solid #404040;
+				border-bottom: 2px solid #404040;
+				box-shadow: 2px 2px 0 #000000;
+
+				opacity: 0;
+				pointer-events: none;
+				z-index: 20;
+				transform: translateY(6px);
+				transition: opacity 0.15s linear, transform 0.15s linear;
+			}
+
+			.tag:hover::after {
+				opacity: 1;
+				transform: translateY(0);
+			}
+
+			#lightbox-overlay {
+				display: none;
+				position: fixed;
+				inset: 0;
+				background-color: rgba(0, 0, 0, 0.8);
+				z-index: 9999;
+				justify-content: center;
+				align-items: center;
+			}
+			#lightbox-inner {
+				max-width: 90vw;
+				max-height: 90vh;
+				background-color: #000000;
+				padding: 6px;
+				border-top: 3px solid #ffffff;
+				border-left: 3px solid #ffffff;
+				border-right: 3px solid #404040;
+				border-bottom: 3px solid #404040;
+			}
+			#lightbox-image {
+				max-width: 100%;
+				max-height: 100%;
+				display: block;
+			}
+
+			.credits {
+				max-width: 960px;
+				margin: 0 auto;
+				padding: 8px 10px 15px;
+				font-size: 11px;
+				font-family: Verdana, Tahoma, Arial, sans-serif;
+				text-align: center;
+				background-color: var(--bg-content);
+				border-left: 2px solid var(--win95-border-light);
+				border-right: 2px solid var(--win95-border-light);
+				border-bottom: 2px solid var(--win95-border-light);
+			}
+			.credits a {
+				color: var(--accent);
+				text-decoration: underline;
+			}
+			.credits a:hover {
+				text-decoration: none;
+			}
+			.badge-bar {
+				margin-top: 8px;
+			}
+			.badge-bar img {
+				margin: 2px;
+				border: 1px solid #000000;
+			}
+			.card img,
+			.card video,
+			.gallery-image-wrapper,
+			.win95-panel {
+				width: 100%;
+				box-sizing: border-box;
+			}
+			.card img,
+			.card video {
+				border-radius: 0;
+				margin-bottom: 8px;
+				display: block;
+				border: 2px solid #000000;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="page-wrap">
+			<header>
+				<h1>Sevie's Portfolio (unfinished, go away)</h1>
+				<nav id="nav"></nav>
+				<div id="header-bar" class="header-bar"></div>
+			</header>
+			<div class="divider"></div>
+			<section class="content-section">
+				<div class="cards-container" id="cards-container">
+					<!-- Cards load here dynamically -->
+				</div>
+			</section>
+			<div class="credits">
+				Made by <a href="https://github.com/sehvie/portfolio" target="_blank">Sevie</a> (@sehvie).
+				<div class="badge-bar">
+					<!-- gif button space, add later -->
+					<!--
+						<img src="buttons/html.gif" alt="HTML 4.01">
+						<img src="buttons/best-viewed.gif" alt="Best Viewed with Any Browser">
+						-->
+				</div>
+			</div>
+		</div>
+		<div id="lightbox-overlay">
+			<div id="lightbox-inner">
+				<img id="lightbox-image" src="" alt="" />
+			</div>
+		</div>
+		<script>
+			const startYear = 2018;
+			const currentYear = new Date().getFullYear();
+			const years = currentYear - startYear;
+			const yearsText = years + (years === 1 ? " year" : " years");
+
+			// data
+			const categories = [
+				{ id: "home", label: "Home" }, // home tab, uses header-bar text
+				{ id: "games", label: "Team Projects" },
+				{ id: "work", label: "Work" },
+				{ id: "projects", label: "Projects" },
+				{ id: "scripts", label: "Scripting" },
+				{ id: "animation", label: "Animation" },
+				{ id: "ui", label: "UI Design" },
+				{ id: "misc", label: "Other" },
+			];
+
+			// Text for the header-bar per tab
+			const categoryDescriptions = {
+				home:
+					"", //no
+				games:
+					"Anything I've actively worked as a developer on at some point.",
+				work:
+					"Commissions or contributions where I helped someone else's project.",
+				projects:
+					"Personal experiments, prototypes, and solo projects. None of these are finished or available, mind you.",
+				scripts:
+					"Scripting-heavy work: systems, tools, and other code I think is worth showing off.",
+				animation:
+					"Anything related to animation. I'm pretty good at animating, although I don't do it much.",
+				ui:
+					"Layouts, mockups, recreations. Any UI I've worked on that I like.",
+				misc:
+					"This is the category that kills you. die"
+			};
+			const landingMessages = [
+				"This is more like a blog than a portfolio, sorry in advance!"
+			];
+			
+			const cards = [
+				// HOME
+				{
+					category: "home",
+					title: "Card",
+					subtitle: "11/30/2025",
+					image: null,
+					imageAlt: null,
+					gallery: null,
+					description:
+						`Hi, I'm Sevie. I've been developing on Roblox for ${yearsText}. ` +
+						`I've learned a lot, and have worked on many solo and group projects. I'm most motivated working in groups, ` +
+						`and don't often finish projects on my own. I enjoy reverse-engineering games to learn how they work. ` +
+						`I develop games for fun, and won't work on anything I have no personal interest in. `,
+					tags: [
+						{
+							label: "HOVER!!",
+							info: "Thanks! These tabs will have info in them.",
+						},
+						{
+							label: "Website Design",
+							info: "Yes, it looks ugly on purpose. It used to look \"better\", but it was incredibly generic..."
+						},
+						{
+							label: "Scripting",
+							info: "Everything! (A lot of it was done for a school project though.)",
+						},
+						{
+							label: "Discord",
+							info: "@sehvie"
+						}
+					],
+				},
+				
+				// GAMES
+				{
+					category: "games",
+					title: "Anthropolious",
+					subtitle: "2022-Present",
+					image: null,
+					imageAlt: "Anthropolious Game Icons",
+					gallery: [
+						"https://tr.rbxcdn.com/180DAY-9577893d7bb99dd9ac9c3588d7bfbd72/768/432/Image/Webp/noFilter",
+						"https://tr.rbxcdn.com/180DAY-f9f5e15407354fbe3475f915971ce7ce/768/432/Image/Webp/noFilter",
+						"https://tr.rbxcdn.com/180DAY-408ee2bcee7a0d4dfe6fc5332c3c1e8d/768/432/Image/Webp/noFilter",
+						"https://tr.rbxcdn.com/180DAY-d133219b3e2cf59bc6cd57b3556280ff/768/432/Image/Webp/noFilter",
+					],
+					description:
+						"A community hangout game. Joined the team in 2022 and have worked on a wide variety of content and systems for the game.",
+					tags: [
+						{
+							label: "Scripting",
+							info: "Moderation tools, custom chat, interactables, bugfixes, ect.",
+						},
+						{
+							label: "Animation",
+							info: "Various animations.",
+						},
+						{
+							label: "UI",
+							info: "Past UI work",
+						},
+						{
+							label: "Moderation",
+							info: "Active game moderator.",
+						},
+					],
+				},
+				{
+					category: "games",
+					title: "Myriad of Echoes",
+					subtitle: "2025-Present",
+					image: null,
+					imageAlt: "Myriad of Echoes Game Icons",
+					gallery: [
+						"https://tr.rbxcdn.com/180DAY-f00fcd5fa32d311239f783be55e81506/768/432/Image/Webp/noFilter",
+						"https://tr.rbxcdn.com/180DAY-9517d1ec6e9f863387eddec79d808403/768/432/Image/Webp/noFilter",
+						"https://tr.rbxcdn.com/180DAY-ba2268ff67d5b2b0666cc5b33169473f/768/432/Image/Webp/noFilter",
+						"https://tr.rbxcdn.com/180DAY-5d854d92e4b117d2fffc04040a426dd6/768/432/Image/Webp/noFilter",
+					],
+					description:
+						'A Rooms-Inspired Horror Game based on a novel of the same name, inspired by "I Have No Mouth, and I Must Scream". (Game is yet to be released.)',
+					tags: [
+						{
+							label: "Scripting",
+							info: "Content, Bugfixing. WIP Procedural Map Generation.",
+						},
+					],
+				},
+
+				// PROJECTS
+				{
+					category: "projects",
+					title: "Template Gallery",
+					subtitle: "2022",
+					image: null,
+					imageAlt: "",
+					gallery: ["screenshot1.png", "screenshot2.png", "screenshot3.png"],
+					description:
+						"Summaries of solo projects I never finished. Can DITTO from other categories.",
+					tags: [],
+				},
+
+				// WORK
+				{
+					category: "work",
+					title: "Toonblox Universe",
+					subtitle: "2023-Present",
+					image: null,
+					imageAlt: "Toonblox Universe Game Icons",
+					gallery: [
+						"https://tr.rbxcdn.com/180DAY-ca8d3fc9e633fe3236ba15e6f12273fa/768/432/Image/Webp/noFilter",
+						"https://tr.rbxcdn.com/180DAY-e0b63ddc3cd2dc1c3a1c6dae724914bd/768/432/Image/Webp/noFilter",
+						"https://tr.rbxcdn.com/180DAY-0e96ab807038ab69d2f7ccfbdb04792a/768/432/Image/Webp/noFilter",
+						"https://tr.rbxcdn.com/180DAY-c6fa122ddbd426d8cc24d8e44e5ab0be/768/432/Image/Webp/noFilter",
+					],
+					description:
+						"A Continuation of the original Toonblox, Based on Toontown Online. Volunteered to help with animations to speed up the development process, although I am not actively a developer myself.",
+					tags: [
+						{
+							label: "Animation",
+							info: "Various R15 Animations, based on the ones from Toontown",
+						},
+						{
+							label: "Testing",
+							info: "Pre-Alpha tester.",
+						},
+						{
+							label: "Moderation",
+							info: "Active game moderator.",
+						}
+					],
+				},
+				{
+					category: "work",
+					title: "Rooms & Doors",
+					subtitle: "2023-Present",
+					image: null,
+					imageAlt: "RoomsyDoors",
+					gallery: [
+						"https://tr.rbxcdn.com/180DAY-a560f0f258be5963a32b85b9b10695e2/768/432/Image/Webp/noFilter",
+						"https://tr.rbxcdn.com/180DAY-84149e601a13329143b39a5f6468f148/768/432/Image/Webp/noFilter",
+						"https://tr.rbxcdn.com/180DAY-46be53394e82adc7cb674ca3f8410463/768/432/Image/Webp/noFilter"
+					],
+					description:
+						"A \"Remaster\" of Rooms by Nicorocks5555, made by CJ4. Contributed in multiple ways early in development.",
+					tags: [
+						{
+							label: "Building",
+							info: "Room layout for A-20",
+						},
+						{
+							label: "Animations",
+							info: "Awesome dance animation (press 1 ingame)",
+						},
+						{
+							label: "Testing",
+							info: "Feature testing",
+						},
+					],
+				},
+				{
+					category: "work",
+					title: "Work Example",
+					subtitle: "March 2023",
+					image: "sample.png",
+					imageAlt: "Work Example",
+					gallery: null,
+					description:
+						"Commissions or small contributions to other games I don't serve an active role in.",
+					tags: [],
+				},
+				{
+					category: "scripts",
+					title: "Script Example",
+					subtitle: "Scripting",
+					image: null,
+					imageAlt: "",
+					gallery: null,
+					description: "Something I put a lot of effort into scripting.",
+					tags: [],
+				},
+				{
+					category: "animation",
+					title: "Animation Example",
+					subtitle: "Animation",
+					image: null,
+					imageAlt: "",
+					gallery: null,
+					description: "An animation or series of animations, uploaded as GIFs.",
+					tags: [],
+				},
+				{
+					category: "ui",
+					title: "UI Example",
+					subtitle: "UI Design",
+					image: null,
+					imageAlt: "",
+					gallery: null,
+					description: "Something I made related to UI.",
+					tags: [],
+				},
+			];
+
+			const navElement = document.getElementById("nav");
+			const container = document.getElementById("cards-container");
+			const lightboxOverlay = document.getElementById("lightbox-overlay");
+			const lightboxImage = document.getElementById("lightbox-image");
+			const headerBarElement = document.getElementById("header-bar");
+
+			function escapeHtml(str) {
+				return String(str)
+					.replace(/&/g, "&amp;")
+					.replace(/</g, "&lt;")
+					.replace(/>/g, "&gt;")
+					.replace(/"/g, "&quot;");
+			}
+
+			function renderCard(card) {
+				let html = "";
+
+				html += '<div class="card">';
+
+				html += '<div class="card-header">';
+				html += "<h2>" + escapeHtml(card.title) + "</h2>";
+				if (card.subtitle) {
+					html += '<div class="subtext">' + escapeHtml(card.subtitle) + "</div>";
+				}
+				html += "</div>";
+
+				if (card.image) {
+					html +=
+						'<img class="zoomable-image" src="' +
+						card.image +
+						'" alt="' +
+						escapeHtml(card.imageAlt || "") +
+						'">';
+				}
+
+				if (Array.isArray(card.gallery) && card.gallery.length > 0) {
+					const imagesAttr = card.gallery.join("|");
+					const firstSrc = card.gallery[0];
+
+					html += '<div class="gallery" data-images="' + imagesAttr + '">';
+					html += '  <div class="gallery-image-wrapper">';
+					html += '	<img class="gallery-image zoomable-image" src="' + firstSrc + '" alt="">';
+					html += '	<div class="gallery-counter">1 / ' + card.gallery.length + "</div>";
+					html += '	<div class="gallery-arrow gallery-arrow-left" data-dir="prev">&#9664;</div>';
+					html += '	<div class="gallery-arrow gallery-arrow-right" data-dir="next">&#9654;</div>';
+					html += "  </div>";
+					html += "</div>";
+				}
+
+				html += '<div class="win95-panel">';
+				html += '  <div class="win95-tabs">';
+				html += '	<div class="win95-tab active">Summary</div>';
+
+				if (Array.isArray(card.tags) && card.tags.length > 0) {
+					html += '	<div class="tags">';
+					card.tags.forEach((tag) => {
+						html +=
+							'<div class="tag" data-info="' +
+							escapeHtml(tag.info || "") +
+							'">' +
+							escapeHtml(tag.label) +
+							"</div>";
+					});
+					html += "	</div>";
+				}
+
+				html += "  </div>"; // .win95-tabs
+
+				html += '  <div class="win95-body">';
+				html += "	<p>" + escapeHtml(card.description || "") + "</p>";
+				html += "  </div>";
+
+				html += "</div>"; // .win95-panel
+				html += "</div>"; // .card
+
+				return html;
+			}
+
+			function initGalleries() {
+				const galleries = document.querySelectorAll(".gallery");
+				galleries.forEach((gallery) => {
+					const imagesStr = gallery.dataset.images || "";
+					const sources = imagesStr.split("|").filter(Boolean);
+					if (sources.length === 0) return;
+
+					const imgEl = gallery.querySelector(".gallery-image");
+					const counterEl = gallery.querySelector(".gallery-counter");
+					const arrows = gallery.querySelectorAll(".gallery-arrow");
+
+					let current = 0;
+
+					function update() {
+						imgEl.src = sources[current];
+						if (counterEl) {
+							counterEl.textContent = current + 1 + " / " + sources.length;
+						}
+					}
+
+					arrows.forEach((arrow) => {
+						arrow.addEventListener("click", (e) => {
+							e.stopPropagation();
+							const dir = arrow.dataset.dir;
+							if (dir === "prev") {
+								current = (current - 1 + sources.length) % sources.length;
+							} else {
+								current = (current + 1) % sources.length;
+							}
+							update();
+						});
+					});
+
+					update();
+				});
+			}
+
+			function initLightbox() {
+				lightboxOverlay.addEventListener("click", (e) => {
+					if (e.target === lightboxOverlay) {
+						lightboxOverlay.style.display = "none";
+					}
+				});
+
+				document.addEventListener("keydown", (e) => {
+					if (e.key === "Escape") {
+						lightboxOverlay.style.display = "none";
+					}
+				});
+			}
+
+			function attachZoomHandlers() {
+				const zoomables = container.querySelectorAll(".zoomable-image");
+				zoomables.forEach((img) => {
+					img.style.cursor = "zoom-in";
+					img.addEventListener("click", () => {
+						lightboxImage.src = img.src;
+						lightboxOverlay.style.display = "flex";
+					});
+				});
+			}
+
+			function updateHeaderBar(categoryId) {
+				if (!headerBarElement) return;
+
+				if (categoryId === "home") {
+					const list = landingMessages;
+					const idx = Math.floor(Math.random() * list.length);
+					headerBarElement.innerHTML = list[idx];
+				} else {
+					headerBarElement.innerHTML =
+						categoryDescriptions[categoryId] || "";
+				}
+			}
+
+			function renderSection(categoryId) {
+				// if (categoryId === "home") {
+				//	container.innerHTML = "";
+				//	return;
+				//} I actually want home to show cards now, so kill this
+
+				const filtered = cards.filter((card) => card.category === categoryId);
+				if (filtered.length === 0) {
+					container.innerHTML = "<p>No content.</p>";
+					return;
+				}
+
+				container.innerHTML = filtered.map(renderCard).join("");
+				initGalleries();
+				attachZoomHandlers();
+			}
+
+			function buildNav() {
+				navElement.innerHTML = "";
+
+				categories.forEach((cat, index) => {
+					const btn = document.createElement("button");
+					btn.textContent = cat.label;
+					btn.dataset.section = cat.id;
+					if (index === 0) {
+						btn.classList.add("active");
+					}
+					btn.addEventListener("click", () => {
+						Array.from(navElement.querySelectorAll("button")).forEach((b) => b.classList.remove("active"));
+						btn.classList.add("active");
+						updateHeaderBar(cat.id);
+						renderSection(cat.id);
+					});
+					navElement.appendChild(btn);
+				});
+			}
+
+			buildNav();
+			initLightbox();
+			updateHeaderBar(categories[0].id);
+			renderSection(categories[0].id);
+		</script>
+	</body>
+</html>
