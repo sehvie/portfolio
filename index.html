@@ -24,17 +24,47 @@
 				--win95-gray: #c0c0c0;
 				--win95-dark: #404040;
 				--win95-border-light: #ffffff;
+				
+				--bg-image-offset: 0px;
 			}
 
 			body {
 				margin: 0;
 				font-family: Verdana, Tahoma, Arial, sans-serif;
 				font-size: 14px;
-				background-color: var(--bg-main);
-				background-image: url("bg-tile.gif");
-				background-repeat: repeat;
-				color: #f0f0f0;
+
+				color: #ffffff;
+
+				/* Bottom layer: your full bright gradient */
+				background-image: 
+					linear-gradient(to bottom, var(--header-grad-top), var(--header-grad-bottom));
+
+				background-repeat: no-repeat;
+				background-size: cover;
+				background-attachment: fixed;
+
+				position: relative;
+				overflow-x: hidden;
 			}
+			body::before {
+				content: "";
+				position: fixed;
+				top: 0;
+				right: 0;
+				width: 100vw;
+				height: 100vh;
+
+				background-image: url("./portfolio/assets/bg.png");
+				background-repeat: no-repeat;
+				background-size: auto;
+
+				/* Will be controlled by variable for parallax */
+				background-position: right var(--bg-image-offset);
+
+				pointer-events: none;
+				z-index: -1;
+			}
+
 			a {
 				color: var(--accent);
 				text-decoration: underline;
@@ -341,6 +371,16 @@
 				opacity: 1;
 				transform: translateY(0);
 			}
+			
+			.tag-action {
+				cursor: pointer; /* clickable tags use pointer instead of help */
+			}
+
+			.tag-marker {
+				font-size: 10px;
+				opacity: 0.8;
+				margin-left: 2px;
+			}
 
 			#lightbox-overlay {
 				display: none;
@@ -402,10 +442,25 @@
 			}
 			.card img,
 			.card video {
+				width: 100%;
 				border-radius: 0;
 				margin-bottom: 8px;
 				display: block;
 				border: 2px solid #000000;
+			}
+			.video-badge {
+				position: absolute;
+				top: 4px;
+				left: 4px;
+				padding: 2px 6px;
+				font-size: 10px;
+				color: #000000;
+				background-color: #c0c0c0;
+				border-top: 2px solid #ffffff;
+				border-left: 2px solid #ffffff;
+				border-right: 2px solid #404040;
+				border-bottom: 2px solid #404040;
+				pointer-events: none;
 			}
 		</style>
 	</head>
@@ -450,8 +505,6 @@
 				{ id: "games", label: "Team Projects" },
 				{ id: "work", label: "Work" },
 				{ id: "projects", label: "Projects" },
-				{ id: "scripts", label: "Scripting" },
-				{ id: "animation", label: "Animation" },
 				{ id: "ui", label: "UI Design" },
 				{ id: "misc", label: "Other" },
 			];
@@ -465,7 +518,7 @@
 				work:
 					"Commissions or contributions where I helped someone else's project.",
 				projects:
-					"Personal experiments, prototypes, and solo projects. None of these are finished or available, mind you.",
+					"Personal experiments, prototypes, and solo projects.",
 				scripts:
 					"Scripting-heavy work: systems, tools, and other code I think is worth showing off.",
 				animation:
@@ -476,14 +529,16 @@
 					"This is the category that kills you. die"
 			};
 			const landingMessages = [
-				"This is more like a blog than a portfolio, sorry in advance!"
+				"This is more like a blog than a portfolio, sorry in advance.",
+				"TIP: You can hover over videos to play them.",
+				"TIP: You don't have to do anything anymore. Ever. Never Ever.",
 			];
 			
 			const cards = [
 				// HOME
 				{
 					category: "home",
-					title: "Card",
+					title: "read me!",
 					subtitle: "11/30/2025",
 					image: null,
 					imageAlt: null,
@@ -505,11 +560,29 @@
 						{
 							label: "Scripting",
 							info: "Everything! (A lot of it was done for a school project though.)",
-						},
+						}
+					],
+				},
+				{
+					category: "home",
+					title: "Socials & other notes",
+					subtitle: "11/30/2025",
+					image: null,
+					imageAlt: null,
+					gallery: null,
+					description:
+						"I don't have a list of everything I've ever done on the platform, only old screenshots/saved files. There's a LOT of work I've done that I just don't have records of, or just don't remember. Either way, I appreciate your time in checking this out!",
+					tags: [
 						{
 							label: "Discord",
-							info: "@sehvie"
-						}
+							info: "@sehvie",
+							copy: "sehvie"
+						},
+						{
+							label: "Roblox",
+							info: "My Profile",
+							href: "https://www.roblox.com/users/55088082/profile"
+						},
 					],
 				},
 				
@@ -517,7 +590,7 @@
 				{
 					category: "games",
 					title: "Anthropolious",
-					subtitle: "2022-Present",
+					subtitle: "Developer from 2022-Present",
 					image: null,
 					imageAlt: "Anthropolious Game Icons",
 					gallery: [
@@ -545,12 +618,17 @@
 							label: "Moderation",
 							info: "Active game moderator.",
 						},
+						{
+							label: "Group",
+							info: "Group Link",
+							href: "https://www.roblox.com/communities/14784323/TPR-AnthropoIis",
+						}
 					],
 				},
 				{
 					category: "games",
 					title: "Myriad of Echoes",
-					subtitle: "2025-Present",
+					subtitle: "Developer from 2025-Present",
 					image: null,
 					imageAlt: "Myriad of Echoes Game Icons",
 					gallery: [
@@ -560,33 +638,103 @@
 						"https://tr.rbxcdn.com/180DAY-5d854d92e4b117d2fffc04040a426dd6/768/432/Image/Webp/noFilter",
 					],
 					description:
-						'A Rooms-Inspired Horror Game based on a novel of the same name, inspired by "I Have No Mouth, and I Must Scream". (Game is yet to be released.)',
+						'A Rooms-Inspired Horror Game. In active development, the game is yet to be released.',
 					tags: [
 						{
 							label: "Scripting",
 							info: "Content, Bugfixing. WIP Procedural Map Generation.",
 						},
+						{
+							label: "Group",
+							info: "Group Link",
+							href: "https://www.roblox.com/communities/17236205/PROJECT-HOMBRE"
+						}
 					],
 				},
 
 				// PROJECTS
 				{
 					category: "projects",
-					title: "Template Gallery",
-					subtitle: "2022",
-					image: "/portfolio/assets/RobloxStudioBeta_9Lkg9N1qB0.png",
+					title: "Throwables",
+					subtitle: "2025",
+					image: null,
+					imageAlt: null,
+					video: "./portfolio/assets/throwables.mp4",
+					gallery: [
+						"./portfolio/assets/codebase-throwables.png",
+						"./portfolio/assets/throwable-module.png"
+					],
+					description: "A OOP-based throwables system, allowing players to pick up objects around the map and throw them at others. Uses modules for easy additions, so the base code doesn't need to be modified. (uses FastCast.)",
+					tags: [
+						{
+							label: "Scripting",
+							info: "UI functionality, block placement logic."
+						},
+						{
+							label: "UI",
+							info: "Full UI, sliced assets, icons."
+						}
+					],
+				},
+				{
+					category: "projects",
+					title: "Minecraft Building Game",
+					subtitle: "2023-2024",
+					image: "./portfolio/assets/RobloxStudioBeta_9Lkg9N1qB0.png",
 					imageAlt: "Minecraft-like tool UI",
 					gallery: null,
-					description:
-						"Summaries of solo projects I never finished. Can DITTO from other categories.",
+					description: "Minecraft-like building. OOP, logic for block faces, viewport thumbnails for blocks, variation selections, ect.",
+					tags: [
+						{
+							label: "Scripting",
+							info: "UI functionality, block placement logic."
+						},
+						{
+							label: "UI",
+							info: "Full UI, sliced assets, icons."
+						}
+					],
+				},
+				{
+					category: "projects",
+					title: "Animation Root Motion",
+					subtitle: "2024",
+					image: null,
+					imageAlt: null,
+					video: "./portfolio/assets/yakuzacombo.mp4",
+					gallery: null,
+					description: "A project in which I attempted to recreate root movement features present within other engines. Allows for multiple animations to play in sequence that move the character forwards without the player snapping back into place at the end of each animation. Not feature complete, and presented many more technical challenges that I would have to overcome, but I learned a lot in the process regardless.",
+					tags: [
+						{
+							label: "Scripting",
+							info: "Functionality, translating root movement to physical space."
+						},
+						{
+							label: "Animations",
+							info: "All animations shown are animated by me, based on the Yakuza 0 light attack combo."
+						}
+					],
+				},
+				{
+					category: "projects",
+					title: "Dungeon Generation",
+					subtitle: "2023/2024",
+					image: null,
+					imageAlt: "hi",
+					gallery: [
+					"./portfolio/assets/mapgentest-large.png",
+					"./portfolio/assets/mapgentest.png",
+					"./portfolio/assets/a lot of gen.png",
+					],
+					description: "Performant dungeon generator. Originally made for a roguelike project, but abandoned pretty early into development.",
 					tags: [],
 				},
-
+				
 				// WORK
 				{
 					category: "work",
 					title: "Toonblox Universe",
-					subtitle: "2023-Present",
+					subtitle: "Moderator/Contributor from 2023-Present",
 					image: null,
 					imageAlt: "Toonblox Universe Game Icons",
 					gallery: [
@@ -609,13 +757,18 @@
 						{
 							label: "Moderation",
 							info: "Active game moderator.",
-						}
+						},
+						{
+							label: "Group",
+							info: "Group Link",
+							href: "https://www.roblox.com/communities/2687888/Dat-Elevator-Studio",
+						},
 					],
 				},
 				{
 					category: "work",
 					title: "Rooms & Doors",
-					subtitle: "2023-Present",
+					subtitle: "Contributor from 2023-Present",
 					image: null,
 					imageAlt: "RoomsyDoors",
 					gallery: [
@@ -628,7 +781,7 @@
 					tags: [
 						{
 							label: "Building",
-							info: "Room layout for A-20",
+							info: "Room layout for A-20, and the (cancelled) B-Sector",
 						},
 						{
 							label: "Animations",
@@ -638,48 +791,176 @@
 							label: "Testing",
 							info: "Feature testing",
 						},
+						{
+							label: "Game",
+							info: "Game Page",
+							href: "https://www.roblox.com/games/5865058321/Rooms-Doors-Hidden-Tactics"
+						},
 					],
 				},
 				{
 					category: "work",
-					title: "Work Example",
-					subtitle: "March 2023",
-					image: "sample.png",
-					imageAlt: "Work Example",
+					title: "Void Script Builder",
+					subtitle: "Active moderator from 2019-2023",
+					image: null,
+					imageAlt: null,
 					gallery: null,
 					description:
-						"Commissions or small contributions to other games I don't serve an active role in.",
-					tags: [],
+						"Before being shut down, Void Script Builder was the most popular game in the Script Builder genre. VSB is where I gained most of my scripting experience, and it's the entire reason I became a developer.",
+					tags: [
+						{
+							label: "Moderation",
+							info: "Past moderator.",
+						},
+						{
+							label: "Group",
+							info: "Group page",
+							href: "https://www.roblox.com/communities/3256759/Void-Community#!/about"
+						},
+					],
 				},
+				
+				// UI
 				{
-					category: "scripts",
-					title: "Script Example",
-					subtitle: "Scripting",
-					image: null,
-					imageAlt: "",
-					gallery: null,
-					description: "Something I put a lot of effort into scripting.",
-					tags: [],
-				},
-				{
-					category: "animation",
-					title: "Animation Example",
-					subtitle: "Animation",
-					image: null,
-					imageAlt: "",
-					gallery: null,
-					description: "An animation or series of animations, uploaded as GIFs.",
-					tags: [],
+					category: "ui",
+					title: "Dark Souls UI",
+					subtitle: "2025",
+					image: "./portfolio/assets/darksouls-ui.png",
+					imageAlt: null,
+					video: null,
+					description: "UI based on the Dark Souls series.",
+					tags: [
+						{
+							label: "Scripting",
+							info: "Functionality for stat buildup"
+						},
+						{
+							label: "UI",
+							info: "Full UI, assets made by me."
+						}
+					],
 				},
 				{
 					category: "ui",
-					title: "UI Example",
-					subtitle: "UI Design",
+					title: "Yakuza 0 UI",
+					subtitle: "2025",
+					image: "./portfolio/assets/yakuza-ui.png",
+					imageAlt: null,
+					video: null,
+					description: "UI made for a Yakuza 0 fangame. Recreated from scratch, doesn't use any game assets.",
+					tags: [
+						{
+							label: "UI",
+							info: "Full UI."
+						}
+					],
+				},
+				{
+					category: "ui",
+					title: "Inventory Jenga, Sorting System",
+					subtitle: "2024",
+					image: "./portfolio/assets/re4-sortbag.png",
+					imageAlt: null,
+					video: "./portfolio/assets/tim.mp4",
+					description: "An inventory system based on RE4. Items can be dragged around, and automatically sorted using the top button.",
+					tags: [
+						{
+							label: "Scripting",
+							info: "Some functionality, item dragging/rotation, sorting logic."
+						},
+						{
+							label: "UI",
+							info: "Full UI. Images are placeholders from Resident Evil 5."
+						}
+					],
+				},
+				{
+					category: "ui",
+					title: "FNAF SB Watch, Physical Pause Menu",
+					subtitle: "2024",
+					video: "./portfolio/assets/fazwatch-preview.mp4",
+					image: "./portfolio/assets/fazwatch-ui.png",
+					imageAlt: null,
+					description: "An in-world pause menu for a FNAF Security Breach inspired hangout game.",
+					tags: [
+						{
+							label: "Scripting",
+							info: "Basic functionality."
+						},
+						{
+							label: "UI",
+							info: "Full UI."
+						}
+					],
+				},
+				{
+					category: "ui",
+					title: "World Messages",
+					subtitle: "2023, Actively Maintained",
 					image: null,
-					imageAlt: "",
+					imageAlt: null,
+					gallery: [
+						"./portfolio/assets/darksoulsmessage-ui.png",
+						"./portfolio/assets/darksoulsmessage-interact.png",
+						"./portfolio/assets/roguelineage-lol.png"
+					],
+					description: "Also based on the Dark Souls series, functional ui to create and place messages in the world based on preset phrases. Open source!",
+					tags: [
+						{
+							label: "Scripting",
+							info: "Full functionality."
+						},
+						{
+							label: "UI",
+							info: "Full UI, assets made by me."
+						}
+					],
+				},
+				
+				// MISC
+				{
+					category: "misc",
+					title: "Weapon Types & Variants rewrite",
+					subtitle: "Rogue Lineage Concepts, 2023.",
+					image: null,
+					imageAlt: null,
+					gallery: ["./portfolio/assets/weapon-oop.png"],
+					video: "./portfolio/assets/roguewoken.mp4",
+					description: "During the time where I was messing with decompiled code for Rogue lineage (via a copy of the game that was made open source), I cleaned up and rewrote equipment handling for weapons, allowing for weapon additions without having to amend various sections of the CharacterHandler and other server code. The project will obviously never be released (I do not have the rights to ANY of the content here), but I enjoy doing this kind of stuff to learn how to improve.",
+					tags: [
+						{
+							label: "Scripting",
+							info: "Functionality, fully rewritten code for detecting, reading, processing weapon types, as well as handling attack combos and criticals/M2s."
+						},
+						{
+							label: "Animations",
+							info: "I'm fairly sure the swing animations are directly ripped from beta Deepwoken, but I DID recreate the crit myself."
+						},
+						{
+							label: "Assets",
+							info: "These assets are NOT mine! All models/sounds seen here are ripped from Deepwoken and Rogue Lineage."
+						}
+					],
+				},
+				{
+					category: "misc",
+					title: "Bard Rework (concept)",
+					subtitle: "Rogue Lineage Concepts, 2023.",
+					image: null,
+					imageAlt: null,
 					gallery: null,
-					description: "Something I made related to UI.",
-					tags: [],
+					video: "./portfolio/assets/bard-rework.mp4",
+					description: "A conceptual rework for bard's core mechanics and gameplay, to make the user more capable of watching and supporting teammates. In effect, abilities are debuffed across the board with an easier minigame, and a meter (Flow) that fills over time and can be activated for new buffs depending on the song, in place of the old snap armis bar.",
+					tags: [
+						{
+							label: "Scripting",
+							info: "Processing of beatmaps from scratch, ui functionality. Also made a companion studio plugin to make new beatmaps easily."
+						},
+						{
+							label: "UI",
+							info: "Full UI design."
+						}
+					],
 				},
 			];
 
@@ -701,13 +982,22 @@
 				let html = "";
 
 				html += '<div class="card">';
-
 				html += '<div class="card-header">';
 				html += "<h2>" + escapeHtml(card.title) + "</h2>";
 				if (card.subtitle) {
 					html += '<div class="subtext">' + escapeHtml(card.subtitle) + "</div>";
 				}
 				html += "</div>";
+
+				if (card.video) {
+					html += '<div class="video-wrapper" style="position: relative;">';
+					html += '	<div class="video-badge">Video</div>';
+					html += '	<video class="card-video" preload="auto" playsinline>';
+					html += '		<source src="' + escapeHtml(card.video) + '" type="video/mp4">';
+					html += '		Your browser does not support the video tag.';
+					html += "	</video>";
+					html += "</div>";
+				}
 
 				if (card.image) {
 					html +=
@@ -739,15 +1029,37 @@
 				if (Array.isArray(card.tags) && card.tags.length > 0) {
 					html += '	<div class="tags">';
 					card.tags.forEach((tag) => {
+						const attrs = [];
+
+						if (tag.info) {
+							attrs.push('data-info="' + escapeHtml(tag.info) + '"');
+						}
+
+						if (tag.href) {
+							attrs.push('data-href="' + escapeHtml(tag.href) + '"');
+						}
+						if (tag.copy) {
+							attrs.push('data-copy="' + escapeHtml(tag.copy) + '"');
+						}
+
+						let marker = "";
+						if (tag.copy) {
+							marker = ' <span class="tag-marker">(copy)</span>';
+						} else if (tag.href) {
+							marker = ' <span class="tag-marker">(link)</span>';
+						}
+
 						html +=
-							'<div class="tag" data-info="' +
-							escapeHtml(tag.info || "") +
-							'">' +
+							'<div class="tag" ' +
+							attrs.join(" ") +
+							">" +
 							escapeHtml(tag.label) +
+							marker +
 							"</div>";
 					});
 					html += "	</div>";
 				}
+
 
 				html += "  </div>"; // .win95-tabs
 
@@ -760,6 +1072,8 @@
 
 				return html;
 			}
+
+
 
 			function initGalleries() {
 				const galleries = document.querySelectorAll(".gallery");
@@ -797,6 +1111,68 @@
 					update();
 				});
 			}
+			
+			function copyToClipboard(text) {
+				if (navigator.clipboard && navigator.clipboard.writeText) {
+					return navigator.clipboard.writeText(text);
+				}
+
+				return new Promise((resolve, reject) => {
+					const textarea = document.createElement("textarea");
+					textarea.value = text;
+					textarea.style.position = "fixed";
+					textarea.style.left = "-9999px";
+					document.body.appendChild(textarea);
+					textarea.focus();
+					textarea.select();
+					try {
+						const ok = document.execCommand("copy");
+						document.body.removeChild(textarea);
+						if (!ok) reject(new Error("execCommand failed"));
+						else resolve();
+					} catch (err) {
+						document.body.removeChild(textarea);
+						reject(err);
+					}
+				});
+			}
+
+			function initTagActions() {
+				const tags = container.querySelectorAll(".tag");
+
+				tags.forEach((tag) => {
+					const href = tag.dataset.href || "";
+					const copyText = tag.dataset.copy || "";
+
+					if (!href && !copyText) {
+						return;
+					}
+
+					tag.classList.add("tag-action");
+
+					tag.addEventListener("click", (e) => {
+						e.preventDefault();
+						e.stopPropagation();
+
+						if (copyText) {
+							const originalInfo = tag.dataset.info || "";
+							tag.dataset.info = "Copied!";
+							copyToClipboard(copyText).finally(() => {
+								// restore tooltip text after a short delay
+								setTimeout(() => {
+									tag.dataset.info = originalInfo;
+								}, 1000);
+							});
+							return;
+						}
+
+						if (href) {
+							window.open(href, "_blank", "noopener");
+						}
+					});
+				});
+			}
+
 
 			function initLightbox() {
 				lightboxOverlay.addEventListener("click", (e) => {
@@ -813,12 +1189,30 @@
 			}
 
 			function attachZoomHandlers() {
-				const zoomables = container.querySelectorAll(".zoomable-image");
-				zoomables.forEach((img) => {
-					img.style.cursor = "zoom-in";
-					img.addEventListener("click", () => {
-						lightboxImage.src = img.src;
-						lightboxOverlay.style.display = "flex";
+					const zoomables = container.querySelectorAll(".zoomable-image");
+					zoomables.forEach((img) => {
+						img.style.cursor = "zoom-in";
+						img.addEventListener("click", () => {
+							lightboxImage.src = img.src;
+							lightboxOverlay.style.display = "flex";
+						});
+					});
+				}
+				
+			function initHoverVideos() {
+				const videos = container.querySelectorAll(".card-video");
+				videos.forEach((video) => {
+					video.addEventListener("mouseenter", () => {
+						const maybePromise = video.play();
+						if (maybePromise && typeof maybePromise.then === "function") {
+							maybePromise.catch(() => {
+							});
+						}
+					});
+
+					video.addEventListener("mouseleave", () => {
+						video.pause();
+						video.currentTime = 0;
 					});
 				});
 			}
@@ -837,11 +1231,6 @@
 			}
 
 			function renderSection(categoryId) {
-				// if (categoryId === "home") {
-				//	container.innerHTML = "";
-				//	return;
-				//} I actually want home to show cards now, so kill this
-
 				const filtered = cards.filter((card) => card.category === categoryId);
 				if (filtered.length === 0) {
 					container.innerHTML = "<p>No content.</p>";
@@ -851,6 +1240,8 @@
 				container.innerHTML = filtered.map(renderCard).join("");
 				initGalleries();
 				attachZoomHandlers();
+				initHoverVideos();
+				initTagActions();
 			}
 
 			function buildNav() {
@@ -877,6 +1268,16 @@
 			initLightbox();
 			updateHeaderBar(categories[0].id);
 			renderSection(categories[0].id);
+			
+			(function initParallaxBackground() {
+				function onScroll() {
+					const offset = window.scrollY * -0.2;
+					document.body.style.setProperty("--bg-image-offset", offset + "px");
+				}
+
+				window.addEventListener("scroll", onScroll, { passive: true });
+				onScroll();
+			})();
 		</script>
 	</body>
 </html>
