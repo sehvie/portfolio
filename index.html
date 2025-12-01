@@ -54,7 +54,7 @@
 				width: 100vw;
 				height: 100vh;
 
-				background-image: url("portfolio/assets/bg.png");
+				background-image: url("/portfolio/assets/bg.png");
 				background-repeat: no-repeat;
 				background-size: auto;
 
@@ -467,7 +467,7 @@
 	<body>
 		<div class="page-wrap">
 			<header>
-				<h1>Sevie's Portfolio (unfinished, go away)</h1>
+				<h1>Sevie's Portfolio</h1>
 				<nav id="nav"></nav>
 				<div id="header-bar" class="header-bar"></div>
 			</header>
@@ -480,11 +480,12 @@
 			<div class="credits">
 				Made by <a href="https://github.com/sehvie/portfolio" target="_blank">Sevie</a> (@sehvie).
 				<div class="badge-bar">
-					<!-- gif button space, add later -->
+					<!-- gif button space. please host ur gifs on like imgur or something i wont accept it if you use a host i don't recognize -->
+					<img src="/portfolio/assets/notepadpp2.gif">
 					<!--
+						use as template: (no hyperlinks pls)
 						<img src="buttons/html.gif" alt="HTML 4.01">
-						<img src="buttons/best-viewed.gif" alt="Best Viewed with Any Browser">
-						-->
+					-->
 				</div>
 			</div>
 		</div>
@@ -509,10 +510,9 @@
 				{ id: "misc", label: "Other" },
 			];
 
-			// Text for the header-bar per tab
 			const categoryDescriptions = {
 				home:
-					"", //no
+					"This is more like a blog than a portfolio, sorry in advance.", //no longer appears
 				games:
 					"Anything I've actively worked as a developer on at some point.",
 				work:
@@ -526,12 +526,16 @@
 				ui:
 					"Layouts, mockups, recreations. Any UI I've worked on that I like.",
 				misc:
-					"This is the category that kills you. die"
+					"Other things that I couldn't fit into the previous categories."
 			};
+			
 			const landingMessages = [
-				"This is more like a blog than a portfolio, sorry in advance.",
-				"TIP: You can hover over videos to play them.",
 				"TIP: You don't have to do anything anymore. Ever. Never Ever.",
+				"TIP: This is the tip that kills you. goodbye",
+				"TIP: I have a job.",
+				"TIP: If you're seeing this, I probably got fired from my job again.",
+				"TIP: You don't wanna see the JS on this site.", // that was reverse psychology. you got fooled. look at my code 😈😈😈
+				"TIP: You can add 88x31 gif buttons to the bottom of this site by sending a push. I WILL accept them." // line 483
 			];
 			
 			const cards = [
@@ -659,10 +663,10 @@
 					subtitle: "2025",
 					image: null,
 					imageAlt: null,
-					video: "portfolio/assets/throwables.mp4",
+					video: "/portfolio/assets/throwables.mp4",
 					gallery: [
-						"portfolio/assets/codebase-throwables.png",
-						"portfolio/assets/throwable-module.png"
+						"/portfolio/assets/codebase-throwables.png",
+						"/portfolio/assets/throwable-module.png"
 					],
 					description: "A OOP-based throwables system, allowing players to pick up objects around the map and throw them at others. Uses modules for easy additions, so the base code doesn't need to be modified. (uses FastCast.)",
 					tags: [
@@ -680,7 +684,7 @@
 					category: "projects",
 					title: "Minecraft Building Game",
 					subtitle: "2023-2024",
-					image: "portfolio/assets/RobloxStudioBeta_9Lkg9N1qB0.png",
+					image: "/portfolio/assets/RobloxStudioBeta_9Lkg9N1qB0.png",
 					imageAlt: "Minecraft-like tool UI",
 					gallery: null,
 					description: "Minecraft-like building. OOP, logic for block faces, viewport thumbnails for blocks, variation selections, ect.",
@@ -701,7 +705,7 @@
 					subtitle: "2024",
 					image: null,
 					imageAlt: null,
-					video: "portfolio/assets/yakuzacombo.mp4",
+					video: "/portfolio/assets/yakuzacombo.mp4",
 					gallery: null,
 					description: "A project in which I attempted to recreate root movement features present within other engines. Allows for multiple animations to play in sequence that move the character forwards without the player snapping back into place at the end of each animation. Not feature complete, and presented many more technical challenges that I would have to overcome, but I learned a lot in the process regardless.",
 					tags: [
@@ -722,9 +726,9 @@
 					image: null,
 					imageAlt: "hi",
 					gallery: [
-					"portfolio/assets/mapgentest-large.png",
-					"portfolio/assets/mapgentest.png",
-					"portfolio/assets/a lot of gen.png",
+					"/portfolio/assets/mapgentest-large.png",
+					"/portfolio/assets/mapgentest.png",
+					"/portfolio/assets/a lot of gen.png",
 					],
 					description: "Performant dungeon generator. Originally made for a roguelike project, but abandoned pretty early into development.",
 					tags: [],
@@ -825,7 +829,7 @@
 					category: "ui",
 					title: "Dark Souls UI",
 					subtitle: "2025",
-					image: "portfolio/assets/darksouls-ui.png",
+					image: "/portfolio/assets/darksouls-ui.png",
 					imageAlt: null,
 					video: null,
 					description: "UI based on the Dark Souls series.",
@@ -844,7 +848,7 @@
 					category: "ui",
 					title: "Yakuza 0 UI",
 					subtitle: "2025",
-					image: "portfolio/assets/yakuza-ui.png",
+					image: "/portfolio/assets/yakuza-ui.png",
 					imageAlt: null,
 					video: null,
 					description: "UI made for a Yakuza 0 fangame. Recreated from scratch, doesn't use any game assets.",
@@ -859,9 +863,9 @@
 					category: "ui",
 					title: "Inventory Jenga, Sorting System",
 					subtitle: "2024",
-					image: "portfolio/assets/re4-sortbag.png",
+					image: "/portfolio/assets/re4-sortbag.png",
 					imageAlt: null,
-					video: "portfolio/assets/tim.mp4",
+					video: "/portfolio/assets/tim.mp4",
 					description: "An inventory system based on RE4. Items can be dragged around, and automatically sorted using the top button.",
 					tags: [
 						{
@@ -878,8 +882,8 @@
 					category: "ui",
 					title: "FNAF SB Watch, Physical Pause Menu",
 					subtitle: "2024",
-					video: "portfolio/assets/fazwatch-preview.mp4",
-					image: "portfolio/assets/fazwatch-ui.png",
+					video: "/portfolio/assets/fazwatch-preview.mp4",
+					image: "/portfolio/assets/fazwatch-ui.png",
 					imageAlt: null,
 					description: "An in-world pause menu for a FNAF Security Breach inspired hangout game.",
 					tags: [
@@ -900,9 +904,9 @@
 					image: null,
 					imageAlt: null,
 					gallery: [
-						"portfolio/assets/darksoulsmessage-ui.png",
-						"portfolio/assets/darksoulsmessage-interact.png",
-						"portfolio/assets/roguelineage-lol.png"
+						"/portfolio/assets/darksoulsmessage-ui.png",
+						"/portfolio/assets/darksoulsmessage-interact.png",
+						"/portfolio/assets/roguelineage-lol.png"
 					],
 					description: "Also based on the Dark Souls series, functional ui to create and place messages in the world based on preset phrases. Open source!",
 					tags: [
@@ -924,8 +928,8 @@
 					subtitle: "Rogue Lineage Concepts, 2023.",
 					image: null,
 					imageAlt: null,
-					gallery: ["portfolio/assets/weapon-oop.png"],
-					video: "portfolio/assets/roguewoken.mp4",
+					gallery: ["/portfolio/assets/weapon-oop.png"],
+					video: "/portfolio/assets/roguewoken.mp4",
 					description: "During the time where I was messing with decompiled code for Rogue lineage (via a copy of the game that was made open source), I cleaned up and rewrote equipment handling for weapons, allowing for weapon additions without having to amend various sections of the CharacterHandler and other server code. The project will obviously never be released (I do not have the rights to ANY of the content here), but I enjoy doing this kind of stuff to learn how to improve.",
 					tags: [
 						{
@@ -949,7 +953,7 @@
 					image: null,
 					imageAlt: null,
 					gallery: null,
-					video: "portfolio/assets/bard-rework.mp4",
+					video: "/portfolio/assets/bard-rework.mp4",
 					description: "A conceptual rework for bard's core mechanics and gameplay, to make the user more capable of watching and supporting teammates. In effect, abilities are debuffed across the board with an easier minigame, and a meter (Flow) that fills over time and can be activated for new buffs depending on the song, in place of the old snap armis bar.",
 					tags: [
 						{
